@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Esta é a página de Games.</h2>
+<hr>
+<p><strong>Game mais jogado no momento:</strong></p>
+{% for k, v in game.items() %}
+<details>
+<summary>{{k}}</summary>
+<p>{{v}}</p>
+</details>
+{% endfor %}
+
+{% endblock content %}
+
