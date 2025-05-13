@@ -16,7 +16,7 @@ DB_NAME = 'games'
 app.config['DATABASE_NAME'] = DB_NAME
 
 # Passando o endereço do banco ao Flask
-app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://root:admin@localhost/{DB_NAME}'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://root@localhost/{DB_NAME}'
 
 # Chamando as rotas
 routes.init_app(app)
@@ -26,8 +26,8 @@ if __name__ == '__main__':
     # Conectando ao MySQL e criando o banco de dados com suas tabelas
     connection = pymysql.connect(host='localhost',
                                  user='root',
-                                 password='admin',
-                                 charset='utf8mb4',
+                                 password='',
+                                 charset='',
                                  cursorclass=pymysql.cursors.DictCursor)
     try:
         with connection.cursor() as cursor:
