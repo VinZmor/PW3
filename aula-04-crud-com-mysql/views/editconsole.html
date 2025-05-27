@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="' col-md-6 m-auto">
+    <h3 style="text-align: center;"> Editar Jogo</h3>
+    <form action="{{url_for('editconsole', id=console.id)}}" method="POST">
+        <input type="text" name="titulo" classe="'form-control" value="{{console.titulo}}" required>
+        <br>
+         <input type="text" name="fabricante" classe="'form-control" value="{{console.fabricante}}" required>
+        <br>
+        <input type="number" name="preco" classe="'form-control" value="{{console.preco}}" required>
+        <br>
+        <input type="number" name="quantidade" classe="'form-control" value="{{console.quantidade}}" required>
+<br>
+<button type="submit" class="btn btn-warning">Alterar</button>
+<a href="{{url_for('estoque')}}">
+<input type="button" value="Cancelar" class="btn btn-danger"></a>
+
+
+
+
+
+
+
+    </form>
+</div>
+
+{% endblock content %}
