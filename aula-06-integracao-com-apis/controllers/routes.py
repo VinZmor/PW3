@@ -1,7 +1,7 @@
 from flask import render_template, request, url_for, redirect
 from models.database import db, Game, Console
-import urllib
-import json
+import urllib # Permite ler a url de uma API
+import json # Faz a conversão de dados para JSON em um dicionário de dados
 
 # Lista de jogadores
 jogadores = ['Miguel José', 'Miguel Isack', 'Leaf',
@@ -121,26 +121,28 @@ def init_app(app):
             db.session.commit()
             return redirect(url_for('consolesEstoque'))
         return render_template('editconsole.html', console=console)
-    
-    # ROTa de Catálogo de Jogos (Cosumo de API)
-    @app.route('/apigames', methods=['GET', 'POST'])
-    @app.route('/apigames/<int:id>', methods=['GET','POST'])
-    def apigames(id=None):
-        urlApi= 'https://www.freetogame.com/api/games'
-        response = urllib.request.urlopen(urlApi)
-        apiData = response.read() 
-        listaJogos = json.loads(apiData) #COnverte em JSOn em dicionario
+
+    # Rota de catálogo de jogos (Consumo da API)
+    @app.route("/apigames", methods=['GET', 'POST'])
+    @app.route('/apigames/<int:id>', methods=['GET', 'POST'])
+    def apigames(id=None):       
+        BASE_URL = "https://www.freetogame.com/api"
+        response = urllib.request.urlopen(BASE_URL + "/games") # URL PESQUISADA: "https://www.freetogame.com/api/games"
+        apiData = response.read() # lê a resposta da API
+        gameList = json.loads(apiData) # converte JSON para dicionário
         
-        #Buscando o jogo indivisuo na lista de nomes
+        # Buscando o jogo individual na lista de jogos
         if id:
             gameInfo = []
-            for jogo in listaJogos:
-                if jogo['id'] == id:
-                    gameInfo = jogo
+            for game in gameList:
+                if game['id'] == id:
+                    gameInfo = game
                     break
+                
             if gameInfo:
-                return render_template('gameinfo.html', gameInfo=gameInfo)
+                return render_template("gameinfo.html", gameInfo=gameInfo)
             else:
-                return f'Game com ID {id} não foi encontrado.'
+                return f'Não foi possível encontrar o nome com esse ID: {id}!'
+                
+        return render_template("apigames.html", gameList=gameList)
         
-        return render_template('apigames.html', listaJogos= listaJogos)
