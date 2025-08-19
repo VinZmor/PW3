@@ -122,27 +122,24 @@ def init_app(app):
             return redirect(url_for('consolesEstoque'))
         return render_template('editconsole.html', console=console)
 
-    # Rota de catálogo de jogos (Consumo da API)
     @app.route("/apigames", methods=['GET', 'POST'])
-    @app.route('/apigames/<int:id>', methods=['GET', 'POST'])
-    def apigames(id=None):       
-        BASE_URL = "https://www.freetogame.com/api"
-        response = urllib.request.urlopen(BASE_URL + "/games") # URL PESQUISADA: "https://www.freetogame.com/api/games"
-        apiData = response.read() # lê a resposta da API
-        gameList = json.loads(apiData) # converte JSON para dicionário
-        
-        # Buscando o jogo individual na lista de jogos
+    @app.route("/apigames/<int:id>", methods=['GET', 'POST'])
+    def apigames(id=None):
+        import urllib.request, json
+
+        BASE_URL = "https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=Blue-Eyes&attribute=LIGHT"
+        response = urllib.request.urlopen(BASE_URL)
+        apiData = response.read()
+
+        # Pega só a lista de cartas
+        gameList = json.loads(apiData)["data"]
+
+        # Busca carta pelo id
         if id:
-            gameInfo = []
-            for game in gameList:
-                if game['id'] == id:
-                    gameInfo = game
-                    break
-                
+            gameInfo = next((game for game in gameList if game["id"] == id), None)
             if gameInfo:
                 return render_template("gameinfo.html", gameInfo=gameInfo)
             else:
-                return f'Não foi possível encontrar o nome com esse ID: {id}!'
-                
-        return render_template("apigames.html", gameList=gameList)
+                return f"Não foi possível encontrar o card com esse ID: {id}!"
         
+        return render_template("apigames.html", gameList=gameList)

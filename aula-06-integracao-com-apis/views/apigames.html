@@ -2,26 +2,31 @@
 {% block content %}
 <div class="container" style="border: 1px #000;">
     <div class="row">
-            {% for games in gameList %}
-            <div class="col-md-3 m-auto">
-                <div class="card" style="width: 16 rem;">
-                    <img src="{{games.thumbnail}}">
-                    <div class="card-body">
-                        <h5>Título: {{games.title}}</h5>
-                        <p>Gênero: {{games.genre}}</p>
-                        <p>Plataforma: {{games.platform}}</p>
-                        <div class="p-1" style="background-color: #ababab;border-radius: 8px;border: solid 1px #FFF;">
-                            <strong>Jogar agora: </strong>
-                            <a href="{{games.game_url}}">Play now</a>
-                        </div>
-                        <div class="p-1" style="background-color: #ababab;border-radius: 8px;border: solid 1px #FFF;">
-                            <a href="{{url_for('apigames', id=games.id)}}">More info</a>
-                        </div>
-                    </div>
+        {% for card in gameList %}
+        <div class="col-md-3 m-auto">
+            <div class="card" style="width: 16rem;">
+                <div class="card-body">
+                    <h5>Nome:</h5>
+                    <p>{{ card.name }}</p>
+
+                    <h5>Tipo:</h5>
+                    <p>{{ card.type }}</p>
+
+                    <h5>Atributo:</h5>
+                    <p>{{ card.attribute }}</p>
+
+                    <h5>Ataque / Defesa:</h5>
+                    <p>{{ card.atk }} / {{ card.def }}</p>
+
+                    <h5>Nível:</h5>
+                    <p>{{ card.level }}</p>
+
+                    <h5>Arquetipo:</h5>
+                    <p>{{ card.archetype }}</p>
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
-
+</div>
 {% endblock content %}
