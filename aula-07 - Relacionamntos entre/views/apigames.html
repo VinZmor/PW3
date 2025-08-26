@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="border: 1px #000;">
+    <div class="row">
+        {% for card in gameList %}
+        <div class="col-md-3 m-auto">
+            <div class="card" style="width: 16rem;">
+                <div class="card-body">
+                    <h5>Nome:</h5>
+                    <p>{{ card.name }}</p>
+
+                    <h5>Tipo:</h5>
+                    <p>{{ card.type }}</p>
+
+                    <h5>Atributo:</h5>
+                    <p>{{ card.attribute }}</p>
+
+                    <h5>Ataque / Defesa:</h5>
+                    <p>{{ card.atk }} / {{ card.def }}</p>
+
+                    <h5>Nível:</h5>
+                    <p>{{ card.level }}</p>
+
+                    <h5>Arquetipo:</h5>
+                    <p>{{ card.archetype }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
